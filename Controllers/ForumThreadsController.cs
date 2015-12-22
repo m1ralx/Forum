@@ -1,13 +1,14 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Forum.Models;
 using Microsoft.AspNet.Identity;
 using MyForum2.Models;
 
-namespace Forum.Controllers
+namespace MyForum2.Controllers
 {
     [Authorize]
     public class ForumThreadsController : Controller
@@ -59,6 +60,7 @@ namespace Forum.Controllers
                 var owner = await db.Users.FirstOrDefaultAsync(user => user.Id == userId);
                 if (owner == null)
                     return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+
                 forumThread.Owner = owner;
                 var board = await db.Boards.FindAsync(boardId);
                 forumThread.Board = board;
@@ -94,13 +96,16 @@ namespace Forum.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Description")] ForumThread forumThread)
         {
-            if (User.Identity.GetUserId() != forumThread.Owner.Id && !User.IsInRole("Admin"))
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             if (ModelState.IsValid)
             {
-                db.Entry(forumThread).State = EntityState.Modified;
+                var oldForumThread = db.Threads.First(t => t.Id == forumThread.Id);
+                oldForumThread.Name = forumThread.Name;
+                oldForumThread.Description = forumThread.Description;
+                if (User.Identity.GetUserId() != oldForumThread.Owner.Id && !User.IsInRole("Admin"))
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                db.Entry(oldForumThread).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Details", "Boards", new { id = forumThread.Board.Id });
+                return RedirectToAction("Details", "Boards", new { id = oldForumThread.Board.Id });
             }
             return View(forumThread);
         }

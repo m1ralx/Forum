@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.UI;
 using Forum.Models;
 using MyForum2.Models;
 using PagedList;
@@ -79,7 +80,10 @@ namespace MyForum2.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(board).State = EntityState.Modified;
+                var oldBoard = db.Boards.First(b => b.Id == board.Id);
+                oldBoard.Name = board.Name;
+                oldBoard.Description = board.Description;
+                db.Entry(oldBoard).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

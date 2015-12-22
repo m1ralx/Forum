@@ -71,3 +71,12 @@ c:\documents\visual studio 2015\Projects\MyForum2\bin\Microsoft.Owin.Security.Tw
 c:\documents\visual studio 2015\Projects\MyForum2\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 c:\documents\visual studio 2015\Projects\MyForum2\obj\Debug\MyForum2.dll
 c:\documents\visual studio 2015\Projects\MyForum2\obj\Debug\MyForum2.pdb
+C:\Documents\Visual Studio 2015\Projects\MyForum2\bin\MySql.Data.dll
+C:\Documents\Visual Studio 2015\Projects\MyForum2\bin\MySql.Data.Entity.EF6.dll
+C:\Documents\Visual Studio 2015\Projects\MyForum2\bin\MySql.Web.dll
+C:\Documents\Visual Studio 2015\Projects\MyForum2\bin\WebMatrix.WebData.dll
+C:\Documents\Visual Studio 2015\Projects\MyForum2\bin\WebMatrix.Data.dll
+C:\Documents\Visual Studio 2015\Projects\MyForum2\bin\WebMatrix.WebData.xml
+C:\Documents\Visual Studio 2015\Projects\MyForum2\bin\WebMatrix.Data.xml
+C:\Documents\Visual Studio 2015\Projects\MyForum2\obj\Debug\MyForum2.Migrations.DBMigration.resources
+C:\Documents\Visual Studio 2015\Projects\MyForum2\obj\Debug\MyForum2.csproj.GenerateResource.Cache

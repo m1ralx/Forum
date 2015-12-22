@@ -78,13 +78,16 @@ namespace MyForum2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Content,PublicationTime")] Message message)
         {
-            if (User.Identity.GetUserId() != message.Owner.Id && !User.IsInRole("Admin"))
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             if (ModelState.IsValid)
             {
-                db.Entry(message).State = EntityState.Modified;
+                Message oldMessage = await db.Messages.FirstAsync(m => m.Id == message.Id);
+                oldMessage.Content = message.Content;
+                oldMessage.PublicationTime = DateTime.Now;
+                if (User.Identity.GetUserId() != oldMessage.Owner.Id && !User.IsInRole("Admin"))
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                db.Entry(oldMessage).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Details", "ForumThreads", new { id = message.Thread.Id });
+                return RedirectToAction("Details", "ForumThreads", new { id = oldMessage.Thread.Id });
             }
             return View(message);
         }
